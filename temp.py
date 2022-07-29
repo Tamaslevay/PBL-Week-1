@@ -6,6 +6,7 @@ This is a temporary script file.
 """
 
 from numpy import diag, array, transpose, linalg, pi
+import matplotlib.pyplot as plt
 
 print("")
 
@@ -22,7 +23,7 @@ P = pi*d #m
 A = 1.963*10**(-11) #m
 betasq = h*P/(k*A)
 deltax = L/5 #m
-sigma = -2-betasq*deltax**2
+sigma = -2-betasq*(deltax)**2
 
 "Forming vectors for diagonals"
 
@@ -49,4 +50,16 @@ b = transpose(array([T0-Ta, 0, 0, 0, T4-Ta]))
 
 solution = linalg.solve(matrix,b)
 print("temperature difference is")
-print(solution+Ta)
+
+print(solution)
+
+print("temperature distribution is")
+tdist = solution + Ta
+print(tdist)
+
+"Plotting the distribution over length"
+
+xinput = array([0,0.00025,0.0005,0.00075,.001])
+
+plt.plot(xinput, tdist)
+

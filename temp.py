@@ -60,7 +60,7 @@ print(tdist)
 "Plotting the distribution over length"
 
 def analsol(x):
-    top = (T0-T4)*sinh(beta*x)+solution[1]*sinh(beta*(L-x))
+    top = (T0-Ta)*sinh(beta*x)+solution[1]*sinh(beta*(L-x))
     bottom = sinh(beta*L)
     return top/bottom
 

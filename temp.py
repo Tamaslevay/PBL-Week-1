@@ -5,7 +5,7 @@ Spyder Editor
 This is a temporary script file.
 """
 
-from numpy import diag, array, transpose, linalg, pi
+from numpy import diag, array, transpose, linalg, pi, sinh
 import matplotlib.pyplot as plt
 
 print("")
@@ -21,9 +21,9 @@ T0 = 353.15 #K
 T4 = 343.15 #K
 P = pi*d #m
 A = 1.963*10**(-11) #m
-betasq = h*P/(k*A)
-deltax = L/5 #m
-sigma = -2-betasq*(deltax)**2
+beta = (h*P/(k*A))**(1/2)
+deltax = L/4 #m
+sigma = -2-(beta)**2*(deltax)**2
 
 "Forming vectors for diagonals"
 
@@ -35,7 +35,7 @@ lowerdiag = array([1,1,1,0])
 
 matrix1 = diag(maindiag, 0)
 matrix2 = diag(upperdiag,+1)
-matrix3 = diag(upperdiag,-1)
+matrix3 = diag(lowerdiag,-1)
 
 "Adding the diagonal matrices"
 
@@ -59,7 +59,21 @@ print(tdist)
 
 "Plotting the distribution over length"
 
+def analsol(x):
+    top = (T0-T4)*sinh(beta*x)+solution[1]*sinh(beta*(L-x))
+    bottom = sinh(beta*L)
+    return top/bottom
+
 xinput = array([0,0.00025,0.0005,0.00075,.001])
 
+analdif = analsol(xinput)
+analsolution = analdif+Ta
+
+print("anal dif")
+print(yanal)
+print("my dif")
+print(solution)
+
 plt.plot(xinput, tdist)
+plt.plot(xinput, analsolution)
 

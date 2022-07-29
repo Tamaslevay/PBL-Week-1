@@ -5,23 +5,24 @@ Spyder Editor
 This is a temporary script file.
 """
 
+from numpy import diag, array, transpose, linalg, pi
+
+print("")
+
 " List of constants"
 
-L = 1*10**(-3) #m
+L = 0.001 #m
 d = 5*10**(-6) #m
 k = 200 #W/mK
 h = 1000 #W/m^2K
 Ta = 293.15 #K
 T0 = 353.15 #K
 T4 = 343.15 #K
-P = 15.71*10**(-6) #um
-A = 19.63*10**(-6) #um
-beta = (h*P/(k*A))**(1/2)
-deltax = 0.25*10**(-3) #m
-sigma = -2-beta**2*(deltax)**2
-
-
-from numpy import diag, array
+P = pi*d #m
+A = 1.963*10**(-11) #m
+betasq = h*P/(k*A)
+deltax = L/5 #m
+sigma = -2-betasq*deltax**2
 
 "Forming vectors for diagonals"
 
@@ -38,6 +39,14 @@ matrix3 = diag(upperdiag,-1)
 "Adding the diagonal matrices"
 
 matrix = matrix1 + matrix2 + matrix3
-print("")
+print("the coefficient matrix is")
 print(matrix)
+print("")
 
+"Solving the matrix equation Ax = b"
+
+b = transpose(array([T0-Ta, 0, 0, 0, T4-Ta]))
+
+solution = linalg.solve(matrix,b)
+print("temperature difference is")
+print(solution+Ta)
